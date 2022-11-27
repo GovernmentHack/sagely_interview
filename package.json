@@ -1,0 +1,30 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "A template mono-repo fullstack web application in typescript",
+  "scripts": {
+    "clean": "learna clean --yes && lerna run clean --stream",
+    "build": "lerna run build --stream",
+    "watch": "lerna run watch --stream",
+    "test": "lerna run test --stream"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GovernmentHack/ts-fullstack-template.git"
+  },
+  "keywords": [
+    "template"
+  ],
+  "author": "GovernmentHack",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GovernmentHack/ts-fullstack-template/issues"
+  },
+  "homepage": "https://github.com/GovernmentHack/ts-fullstack-template#readme",
+  "devDependencies": {
+    "lerna": "^6.0.3"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}

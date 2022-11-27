@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  backend:
+    build: ./packages/server
+    ports:
+      - "5000:5000"
+    image: backend
+  frontend:
+    build: ./packages/frontend
+    ports:
+      - "3000:3000"
+    image: frontend

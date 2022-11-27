@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug server",
+      "type": "node",
+      "request": "attach",
+      "port": 1337,
+      "presentation": {
+        "group": "Debgud Service",
+        "order": 1
+      },
+      "smartStep": true
+    }
+  ]
+}
