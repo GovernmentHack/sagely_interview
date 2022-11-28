@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { DocumentTab } from "./tabs/DocumentList/DocumentList";
+import { PublicationTab } from "./tabs/PublicationList/PublicationList";
 import { Tab, Tabs } from "@mui/material";
 import { TabPanel } from "./tabs/TabPanel";
 
@@ -21,7 +21,7 @@ function App() {
         <Tab label="View Documents" />
       </Tabs>
       <TabPanel index={0} currentlySelectedTab={currentlySelectedTab}>
-        <DocumentTab />
+        <PublicationTab />
       </TabPanel>
     </div >
   );

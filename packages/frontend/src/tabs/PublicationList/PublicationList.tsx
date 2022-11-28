@@ -1,6 +1,6 @@
 import { List, Skeleton, TablePagination, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import "./DocumentList.css"
+import React, { useState } from "react";
+import "./PublicationList.css"
 import useAxios from "../../utils/useAxios";
 import { Publication, PublicationItem } from "./PublicationItem";
 import { Filter } from "./Filter";
@@ -12,7 +12,13 @@ type PublicationsResponse = {
 
 type TagsResponse = string[];
 
-export const DocumentTab: React.FunctionComponent = () => {
+/**
+ * PublicationTab
+ * 
+ * Renders the tab to show all the Publications, and the filter menu. Will also show loading and error state when fetching data
+ * 
+ */
+export const PublicationTab: React.FunctionComponent = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [tags, setTags] = useState<string[]>([]);

@@ -6,6 +6,25 @@ interface FilterParams {
   tags?: string[];
   setTags: Function;
 }
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: 256,
+      width: 250,
+    },
+  },
+};
+
+/**
+ * The tags filter selecter
+ * I'm probably just gonna leave it as is, but, I'd ideally like to add deselecting by clicking the chips
+ * 
+ * @param props.possibleTags - List of possible tags to select
+ * @param props.tags - List of selected tags
+ * @param props.setTags - the OnSelectHandler when tags are selected, should be a react state setter
+ * @returns 
+ */
 export const Filter = ({ possibleTags, tags, setTags }: FilterParams): JSX.Element => {
   const handleChange = (event: SelectChangeEvent<typeof tags>) => {
     const {
@@ -27,6 +46,7 @@ export const Filter = ({ possibleTags, tags, setTags }: FilterParams): JSX.Eleme
           width: 300,
           flex: "1 0 auto"
         }}
+        size="small"
       >
         <InputLabel id="tag-filter-label">Tags</InputLabel>
         <Select
@@ -44,6 +64,7 @@ export const Filter = ({ possibleTags, tags, setTags }: FilterParams): JSX.Eleme
             </Box>
           )}
           disabled={!possibleTags?.length}
+          MenuProps={MenuProps}
         >
           {possibleTags?.length && possibleTags.map((tag) => (
             <MenuItem

@@ -45,3 +45,11 @@ export async function getPublicationsCount() {
   return publicationsCount;
 }
 
+export async function getPublicationTags() {
+  if (!collections.publications) {
+    throw new Error("publications collection not initialized");
+  }
+  const tags = await collections.publications.distinct("manualTags");
+  return tags;
+}
+
