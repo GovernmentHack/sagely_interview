@@ -10,7 +10,5 @@
       "path": "."
     }
   ],
-  "settings": {
-    "jestrunner.jestCommand": ""
-  }
+  "settings": {}
 }

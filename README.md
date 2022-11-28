@@ -6,16 +6,19 @@ A template mono-repo full-stack Typescript project that includes a debugging env
 
 ### Development
 
-`npm run watch`
+From the `/packages/server` directory:
 
-* Runs the server and frontend while watching for node and TS changes.
+* `npm run watch` to run the backend express server.
+* `npm run test` to test just the backend server.
+* `docker-compose-up` to run the backend mongo db server.
 
-`npm run test`
+From the `/packages/frontend` directory:
 
-* Runs all tests using Jest.
+* `npm run watch` to run the frontend.
+* `npm run test` to test just the frontend.
 
 ### Running
 
 `docker-compose up`
 
-* Will build a production build docker container and start it.
+* Will build a production build docker container cluster and start all of it.

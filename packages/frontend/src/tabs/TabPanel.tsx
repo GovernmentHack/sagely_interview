@@ -13,8 +13,8 @@ export function TabPanel(props: TabPanelProps): React.ReactElement {
     <div
       role="tabpanel"
       hidden={currentlySelectedTab !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
       {...other}
     >
       {currentlySelectedTab === index &&

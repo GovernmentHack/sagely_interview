@@ -1,33 +1,13 @@
 import express, { Request, Response } from "express";
+import { ObjectId } from "mongodb";
+import { getPublications, getPublicationsCount, ITEM_TYPE, Publication } from "../db/models/publication";
 
 export const publicationsRouter = express.Router();
 
-type Publication = {
-  url: string;
-  manualTags: string[];
-  abstractNote: string;
-  date: Date;
-  dateAdded: Date;
-  dateModified: Date;
-  accessDate: Date;
-  key: string;
-  itemType: ITEM_TYPE;
-  publicationYear: number;
-  author: string;
-  title: string;
-}
-
-enum ITEM_TYPE {
-  WEBPAGE = "webpage",
-  VIDEO_RECORDING = "videoRecording",
-  MAGAZINE_ARTICLE = "magazineArticle",
-  BLOG_POST = "blogPost",
-  BOOK = "book",
-}
-
-const getPublications = (): Publication[] => {
+const getDummyPublications = (): Publication[] => {
   return [
     {
+      _id: new ObjectId(),
       url: "https://www.google.com",
       manualTags: ["reference", "stuff"],
       abstractNote: "Its google. look it up",
@@ -42,6 +22,7 @@ const getPublications = (): Publication[] => {
       title: "Google",
     },
     {
+      _id: new ObjectId(),
       url: "https://www.facebook.com",
       manualTags: ["networking", "stuff"],
       abstractNote: "Its facebook. look it up",
@@ -56,6 +37,7 @@ const getPublications = (): Publication[] => {
       title: "Facebook",
     },
     {
+      _id: new ObjectId(),
       url: "https://www.youtube.com/watch?v=YWA-xbsJrVg",
       manualTags: ["reference", "guide"],
       abstractNote: "Its a youtube video. look it up",
@@ -74,6 +56,6 @@ const getPublications = (): Publication[] => {
 
 publicationsRouter.get("/", async (req: Request, res: Response) => {
   // TODO: return all tags from data store
-  const publications = getPublications();
-  return res.json({ publications, maxCount: publications.length });
+  const [publications, maxCount] = await Promise.all([getPublications({}), getPublicationsCount()]);
+  return res.json({ publications, maxCount });
 });
