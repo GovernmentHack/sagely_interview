@@ -54,8 +54,15 @@ const getDummyPublications = (): Publication[] => {
   ]
 }
 
-publicationsRouter.get("/", async (req: Request, res: Response) => {
-  // TODO: return all tags from data store
-  const [publications, maxCount] = await Promise.all([getPublications({}), getPublicationsCount()]);
+type getPublicationsRequestParams = {
+  page?: number;
+  pageSize?: number;
+}
+
+publicationsRouter.get("/", async (req: Request<null, any, any, getPublicationsRequestParams>, res: Response) => {
+  const pageSize = Number(req.query.pageSize);
+  const page = Number(req.query.page);
+  console.log(req.query);
+  const [publications, maxCount] = await Promise.all([getPublications({ page, pageSize }), getPublicationsCount()]);
   return res.json({ publications, maxCount });
 });

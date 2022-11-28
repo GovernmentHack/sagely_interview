@@ -1,5 +1,5 @@
 import { List, Skeleton, TablePagination, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./DocumentList.css"
 import useAxios from "../../utils/useAxios";
 import { Publication, PublicationItem } from "./PublicationItem";
@@ -25,6 +25,10 @@ export const DocumentTab: React.FunctionComponent = () => {
   const { response: publicationsResponse, loading: publicationsLoading, error: publicationsError } = useAxios<undefined, PublicationsResponse>({
     method: "GET",
     url: "/publications",
+    params: {
+      pageSize: rowsPerPage,
+      page,
+    }
   });
 
   const handleChangePage = (

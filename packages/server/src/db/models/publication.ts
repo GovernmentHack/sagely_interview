@@ -25,13 +25,13 @@ export enum ITEM_TYPE {
   BOOK = "book",
 }
 
-export async function getPublications({ page, limit, pageSize = 10 }: { page?: number; limit?: number, pageSize?: number }) {
+export async function getPublications({ page = 0, pageSize = 10 }: { page?: number; pageSize?: number }) {
   if (!collections.publications) {
     throw new Error("publications collection not initialized");
   }
   const options = {
-    limit,
-    skip: page ? (pageSize * page) : undefined,
+    limit: pageSize,
+    skip: pageSize * page, // page is 0 indexed
   }
   const publications = await collections.publications.find<Publication>({}, options).toArray();
   return publications;

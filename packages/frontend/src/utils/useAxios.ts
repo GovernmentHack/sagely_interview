@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios, { Method, RawAxiosRequestHeaders, AxiosResponse } from 'axios';
 
-interface UseAxiosParameters<D> { url: string; method: Method; body?: D; headers?: RawAxiosRequestHeaders }
+interface UseAxiosParameters<D> { url: string; method: Method; body?: D; headers?: RawAxiosRequestHeaders, params?: any }
 
-const useAxios = <RequestData, ResponseData>({ url, method, body, headers }: UseAxiosParameters<RequestData>) => {
+const useAxios = <RequestData, ResponseData>({ url, method, body, headers, params }: UseAxiosParameters<RequestData>) => {
   const [response, setResponse] = useState<ResponseData>({} as ResponseData);
   const [error, setError] = useState("");
   const [loading, setloading] = useState(true);
@@ -14,6 +14,7 @@ const useAxios = <RequestData, ResponseData>({ url, method, body, headers }: Use
       headers,
       data: body,
       baseURL: process.env.REACT_APP_SERVER_URL,
+      params,
     })
       .then((res) => {
         setResponse(res.data);
@@ -28,7 +29,7 @@ const useAxios = <RequestData, ResponseData>({ url, method, body, headers }: Use
 
   useEffect(() => {
     fetchData();
-  }, [method, url, body, headers]);
+  }, [method, url, body, headers, params]);
 
   return { response, error, loading };
 };

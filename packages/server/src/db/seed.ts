@@ -49,7 +49,7 @@ export async function seedDb() {
   });
   console.log(`Seeding Publications Collection with ${seedData.length} documents...`);
   try {
-    await collections.publications.insertMany(seedData);
+    await collections.publications.insertMany(seedData, { ordered: false }); // unordered insert to skip errors.
     console.log("Publications collection seeded");
   } catch (error) {
     console.error("Unable to seed DB: ", error);
