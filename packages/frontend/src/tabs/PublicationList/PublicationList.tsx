@@ -1,6 +1,6 @@
 import { List, Skeleton, TablePagination, Typography } from "@mui/material";
 import React, { useState } from "react";
-import "./PublicationList.css"
+import "./PublicationList.css";
 import useAxios from "../../utils/useAxios";
 import { Publication, PublicationItem } from "./PublicationItem";
 import { Filter } from "./Filter";
@@ -8,45 +8,52 @@ import { Filter } from "./Filter";
 type PublicationsResponse = {
   maxCount: number;
   publications: Publication[];
-}
+};
 
 type TagsResponse = string[];
 
 /**
  * PublicationTab
- * 
+ *
  * Renders the tab to show all the Publications, and the filter menu. Will also show loading and error state when fetching data
- * 
+ *
  */
 export const PublicationTab: React.FunctionComponent = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [tags, setTags] = useState<string[]>([]);
 
-  const { response: possibleTags, loading: tagsLoading, error: tagsError } = useAxios<undefined, TagsResponse>({
+  const { response: possibleTags, error: tagsError } = useAxios<
+    undefined,
+    TagsResponse
+  >({
     method: "GET",
     url: "/tags",
   });
 
-  const { response: publicationsResponse, loading: publicationsLoading, error: publicationsError } = useAxios<undefined, PublicationsResponse>({
+  const {
+    response: publicationsResponse,
+    loading: publicationsLoading,
+    error: publicationsError,
+  } = useAxios<undefined, PublicationsResponse>({
     method: "GET",
     url: "/publications",
     params: {
       pageSize: rowsPerPage,
       page,
-      tagFilter: tags
-    }
+      tagFilter: tags,
+    },
   });
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
+    newPage: number
   ) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -54,29 +61,69 @@ export const PublicationTab: React.FunctionComponent = () => {
 
   return (
     <div aria-label="Document List" className="document-list">
-      {!tagsError && possibleTags.length && <Filter tags={tags} setTags={setTags as Function} possibleTags={possibleTags} />}
-      {tagsError && <Typography variant="overline" color="error">{`Could not fetch all possible tags: ${tagsError}`}</Typography>}
-      {publicationsLoading && <>
-        <Skeleton animation="wave" sx={{ minWidth: "50vw", margin: "4px 0 4px 0" }} variant="rectangular" height={64} />
-        <Skeleton animation="wave" sx={{ minWidth: "50vw", margin: "4px 0 4px 0" }} variant="rectangular" height={64} />
-        <Skeleton animation="wave" sx={{ minWidth: "50vw", margin: "4px 0 4px 0" }} variant="rectangular" height={64} />
-      </>}
-      {publicationsError && <Typography variant="overline" color="error">{`Could not fetch publications: ${publicationsError}`}</Typography>}
-      {publicationsResponse?.publications?.length && !publicationsError && !publicationsLoading &&
+      {!tagsError && possibleTags.length && (
+        <Filter
+          tags={tags}
+          setTags={setTags as Function}
+          possibleTags={possibleTags}
+        />
+      )}
+      {tagsError && (
+        <Typography
+          variant="overline"
+          color="error"
+        >{`Could not fetch all possible tags: ${tagsError}`}</Typography>
+      )}
+      {publicationsLoading && (
         <>
-          <List>
-            {publicationsResponse.publications.map((publication) => <PublicationItem publication={publication} key={publication.key} />)}
-          </List >
-          <TablePagination
-            component="div"
-            count={publicationsResponse.maxCount}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+          <Skeleton
+            animation="wave"
+            sx={{ minWidth: "50vw", margin: "4px 0 4px 0" }}
+            variant="rectangular"
+            height={64}
+          />
+          <Skeleton
+            animation="wave"
+            sx={{ minWidth: "50vw", margin: "4px 0 4px 0" }}
+            variant="rectangular"
+            height={64}
+          />
+          <Skeleton
+            animation="wave"
+            sx={{ minWidth: "50vw", margin: "4px 0 4px 0" }}
+            variant="rectangular"
+            height={64}
           />
         </>
-      }
-    </div >
-  )
-} 
+      )}
+      {publicationsError && (
+        <Typography
+          variant="overline"
+          color="error"
+        >{`Could not fetch publications: ${publicationsError}`}</Typography>
+      )}
+      {publicationsResponse?.publications?.length &&
+        !publicationsError &&
+        !publicationsLoading && (
+          <>
+            <List>
+              {publicationsResponse.publications.map((publication) => (
+                <PublicationItem
+                  publication={publication}
+                  key={publication.key}
+                />
+              ))}
+            </List>
+            <TablePagination
+              component="div"
+              count={publicationsResponse.maxCount}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </>
+        )}
+    </div>
+  );
+};

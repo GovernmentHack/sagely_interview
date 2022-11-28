@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -8,12 +8,12 @@ interface TabPanelProps {
 
 /**
  * TabPanel
- * 
+ *
  * wraps the view toggling to dynamicaly display one tab and hide another
- * 
+ *
  * @param props.currentlySelectedTab - the index of the currently selected tab
  * @param props.index - the index of this tab panel
- * @returns 
+ * @returns
  */
 export function TabPanel(props: TabPanelProps): React.ReactElement {
   const { children, currentlySelectedTab, index, ...other } = props;
@@ -26,9 +26,7 @@ export function TabPanel(props: TabPanelProps): React.ReactElement {
       aria-labelledby={`tab-${index}`}
       {...other}
     >
-      {currentlySelectedTab === index &&
-        children
-      }
+      {currentlySelectedTab === index && children}
     </div>
   );
 }

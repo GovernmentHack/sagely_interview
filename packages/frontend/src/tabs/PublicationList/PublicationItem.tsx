@@ -1,13 +1,25 @@
 import React from "react";
-import { Box, Card, CardContent, Chip, Divider, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Divider,
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import BookIcon from "@mui/icons-material/Book";
-import RssFeedIcon from '@mui/icons-material/RssFeed';
-import WebIcon from '@mui/icons-material/Web';
-import ImportContactsIcon from '@mui/icons-material/ImportContacts';
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
-import SchoolIcon from '@mui/icons-material/School';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import InfoIcon from '@mui/icons-material/Info';
+import RssFeedIcon from "@mui/icons-material/RssFeed";
+import WebIcon from "@mui/icons-material/Web";
+import ImportContactsIcon from "@mui/icons-material/ImportContacts";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import SchoolIcon from "@mui/icons-material/School";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import InfoIcon from "@mui/icons-material/Info";
 
 export enum ITEM_TYPE {
   WEBPAGE = "webpage",
@@ -30,7 +42,7 @@ export type Publication = {
   publicationYear: number;
   author: string;
   title: string;
-}
+};
 
 interface PublicationTooltipProps {
   publication: Publication;
@@ -40,59 +52,62 @@ const PublicationMoreInfo = ({ publication }: PublicationTooltipProps) => {
   return (
     <Card sx={{ maxWidth: "50vw", minWidth: "256px" }}>
       <CardContent>
-        <Typography variant="h6">
-          {publication.title}
-        </Typography>
+        <Typography variant="h6">{publication.title}</Typography>
         <Typography sx={{ fontSize: 12 }} color="text.secondary">
           {publication.author}
         </Typography>
         <Typography sx={{ fontSize: 12 }} color="text.secondary">
-          {new Date(publication.date).toISOString().split('T')[0]}
+          {new Date(publication.date).toISOString().split("T")[0]}
         </Typography>
-        <Divider textAlign="left" sx={{ margin: "8px 0 8px 0" }}>Description</Divider>
-        <Typography variant="body2" sx={{ maxHeight: "128px", overflow: "auto" }}>
+        <Divider textAlign="left" sx={{ margin: "8px 0 8px 0" }}>
+          Description
+        </Divider>
+        <Typography
+          variant="body2"
+          sx={{ maxHeight: "128px", overflow: "auto" }}
+        >
           {publication.abstractNote}
         </Typography>
-        <Divider textAlign="left" sx={{ margin: "8px 0 8px 0" }}>Tags</Divider>
-        <Box sx={{
-          display: "flex",
-          alignContent: "flex-start",
-          flexWrap: "wrap",
-          gap: "8px",
-        }}>
-          {publication.manualTags.map((tag) => <Chip label={tag} variant="outlined" key={tag} />)}
+        <Divider textAlign="left" sx={{ margin: "8px 0 8px 0" }}>
+          Tags
+        </Divider>
+        <Box
+          sx={{
+            display: "flex",
+            alignContent: "flex-start",
+            flexWrap: "wrap",
+            gap: "8px",
+          }}
+        >
+          {publication.manualTags.map((tag) => (
+            <Chip label={tag} variant="outlined" key={tag} />
+          ))}
         </Box>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
 const PublicationDates = ({ publication }: PublicationTooltipProps) => {
   return (
     <Card sx={{ maxWidth: "20vw", minWidth: "256px" }}>
       <CardContent>
-        <Typography variant="overline">
-          Added
-        </Typography>
+        <Typography variant="overline">Added</Typography>
         <Typography sx={{ fontSize: 12 }} color="text.secondary">
           {new Date(publication.dateAdded).toLocaleString()}
         </Typography>
-        <Typography variant="overline">
-          last modified
-        </Typography>
+        <Typography variant="overline">last modified</Typography>
         <Typography sx={{ fontSize: 12 }} color="text.secondary">
           {new Date(publication.dateModified).toLocaleString()}
         </Typography>
-        <Typography variant="overline">
-          last accessed
-        </Typography>
+        <Typography variant="overline">last accessed</Typography>
         <Typography sx={{ fontSize: 12 }} color="text.secondary">
           {new Date(publication.accessDate).toLocaleString()}
         </Typography>
       </CardContent>
-    </Card >
-  )
-}
+    </Card>
+  );
+};
 
 const getPublicationIcon = (itemType: ITEM_TYPE) => {
   switch (itemType) {
@@ -109,7 +124,7 @@ const getPublicationIcon = (itemType: ITEM_TYPE) => {
     default:
       return <SchoolIcon />;
   }
-}
+};
 
 const getSecondaryPeek = (text: string) => {
   if (text.length > 90) {
@@ -117,13 +132,22 @@ const getSecondaryPeek = (text: string) => {
   } else {
     return text;
   }
-}
+};
 
-export const PublicationItem = ({ publication }: { publication: Publication }) => {
+export const PublicationItem = ({
+  publication,
+}: {
+  publication: Publication;
+}) => {
   return (
     <ListItem
       secondaryAction={
-        <IconButton edge="end" aria-label="link" color="secondary" onClick={() => window.open(publication.url, "_blank")}>
+        <IconButton
+          edge="end"
+          aria-label="link"
+          color="secondary"
+          onClick={() => window.open(publication.url, "_blank")}
+        >
           <OpenInNewIcon />
         </IconButton>
       }
@@ -134,25 +158,24 @@ export const PublicationItem = ({ publication }: { publication: Publication }) =
     >
       <ListItemIcon>
         <Tooltip
-          title={
-            <PublicationMoreInfo publication={publication} />
-          }
+          title={<PublicationMoreInfo publication={publication} />}
           placement={"bottom-start"}
         >
           {getPublicationIcon(publication.itemType)}
         </Tooltip>
       </ListItemIcon>
-      <ListItemText primary={publication.title || publication.url.slice(0, 70)} secondary={getSecondaryPeek(publication.abstractNote)} />
+      <ListItemText
+        primary={publication.title || publication.url.slice(0, 70)}
+        secondary={getSecondaryPeek(publication.abstractNote)}
+      />
       <ListItemIcon>
         <Tooltip
-          title={
-            <PublicationDates publication={publication} />
-          }
+          title={<PublicationDates publication={publication} />}
           placement={"bottom-start"}
         >
           <InfoIcon />
         </Tooltip>
       </ListItemIcon>
     </ListItem>
-  )
-}
+  );
+};

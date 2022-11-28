@@ -6,11 +6,11 @@ module.exports = {
       {
         tsconfig: "tsconfig.json",
         diagnostics: false,
-      }
+      },
     ],
   },
   testMatch: ["**/*.test.(ts|tsx)"],
   testEnvironment: "node",
   reporters: ["default", "jest-junit"],
-  roots: ["./src/"]
-}
+  roots: ["./src/"],
+};

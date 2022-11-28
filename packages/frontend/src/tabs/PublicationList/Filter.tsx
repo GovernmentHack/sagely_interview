@@ -1,4 +1,14 @@
-import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import React from "react";
 
 interface FilterParams {
@@ -19,32 +29,44 @@ const MenuProps = {
 /**
  * The tags filter selecter
  * I'm probably just gonna leave it as is, but, I'd ideally like to add deselecting by clicking the chips
- * 
+ *
  * @param props.possibleTags - List of possible tags to select
  * @param props.tags - List of selected tags
  * @param props.setTags - the OnSelectHandler when tags are selected, should be a react state setter
- * @returns 
+ * @returns
  */
-export const Filter = ({ possibleTags, tags, setTags }: FilterParams): JSX.Element => {
+export const Filter = ({
+  possibleTags,
+  tags,
+  setTags,
+}: FilterParams): JSX.Element => {
   const handleChange = (event: SelectChangeEvent<typeof tags>) => {
     const {
       target: { value },
     } = event;
-    setTags(
-      typeof value === 'string' ? value.split(',') : value
-    );
+    setTags(typeof value === "string" ? value.split(",") : value);
   };
 
   return (
-    <Box sx={{ margin: "16px 0 0 0", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-      <Typography variant="overline" sx={{ flex: "1 0 auto", margin: "0 0 0 16px" }}>
+    <Box
+      sx={{
+        margin: "16px 0 0 0",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+      }}
+    >
+      <Typography
+        variant="overline"
+        sx={{ flex: "1 0 auto", margin: "0 0 0 16px" }}
+      >
         Filter
       </Typography>
       <FormControl
         sx={{
           m: 1,
           width: 300,
-          flex: "1 0 auto"
+          flex: "1 0 auto",
         }}
         size="small"
       >
@@ -57,7 +79,7 @@ export const Filter = ({ possibleTags, tags, setTags }: FilterParams): JSX.Eleme
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Tag" />}
           renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
               {selected.map((value) => (
                 <Chip key={value} label={value} />
               ))}
@@ -66,14 +88,12 @@ export const Filter = ({ possibleTags, tags, setTags }: FilterParams): JSX.Eleme
           disabled={!possibleTags?.length}
           MenuProps={MenuProps}
         >
-          {possibleTags?.length && possibleTags.map((tag) => (
-            <MenuItem
-              key={tag}
-              value={tag}
-            >
-              {tag}
-            </MenuItem>
-          ))}
+          {possibleTags?.length &&
+            possibleTags.map((tag) => (
+              <MenuItem key={tag} value={tag}>
+                {tag}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
     </Box>

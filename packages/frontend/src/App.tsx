@@ -23,7 +23,7 @@ function App() {
       <TabPanel index={0} currentlySelectedTab={currentlySelectedTab}>
         <PublicationTab />
       </TabPanel>
-    </div >
+    </div>
   );
 }
 

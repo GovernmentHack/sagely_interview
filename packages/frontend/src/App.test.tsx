@@ -8,5 +8,4 @@ describe("App", () => {
     const DocumentTab = screen.getByLabelText("Document List");
     expect(DocumentTab).toBeInTheDocument();
   });
-})
-
+});

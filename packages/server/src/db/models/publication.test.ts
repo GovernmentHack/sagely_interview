@@ -10,16 +10,20 @@ describe("publications", () => {
 
   test("getPublications calls find with calulated skip", async () => {
     process.env.MONGODB_CONNSTRING = "whatever";
-    collections.publications = { find: jest.fn().mockReturnValue({ toArray: jest.fn() }) } as any as Collection;
+    collections.publications = {
+      find: jest.fn().mockReturnValue({ toArray: jest.fn() }),
+    } as any as Collection;
 
     await publicationModule.getPublications({ page: 1, pageSize: 25 });
 
     expect(collections.publications.find as jest.Mock).toBeCalledTimes(1);
-    expect(collections.publications.find as jest.Mock).toBeCalledWith({}, {
-      limit: 25,
-      skip: 0,
-    });
-
+    expect(collections.publications.find as jest.Mock).toBeCalledWith(
+      {},
+      {
+        limit: 25,
+        skip: 0,
+      }
+    );
   });
 
   test("getPublicationsCount will throw if db has not been setup", async () => {

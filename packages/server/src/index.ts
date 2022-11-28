@@ -11,4 +11,3 @@ initApp().then((app) => {
     console.log(`[server]: Server is running at http://${base_url}:${port}`);
   });
 });
-
