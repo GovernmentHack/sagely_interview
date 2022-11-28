@@ -74,5 +74,6 @@ const getPublications = (): Publication[] => {
 
 publicationsRouter.get("/", async (req: Request, res: Response) => {
   // TODO: return all tags from data store
-  return res.json(getPublications());
+  const publications = getPublications();
+  return res.json({ publications, maxCount: publications.length });
 });
