@@ -38,9 +38,9 @@ interface PublicationTooltipProps {
 
 const PublicationMoreInfo = ({ publication }: PublicationTooltipProps) => {
   return (
-    <Card sx={{ maxWidth: "20vw", minWidth: "256px" }}>
+    <Card sx={{ maxWidth: "50vw", minWidth: "256px" }}>
       <CardContent>
-        <Typography variant="h4">
+        <Typography variant="h6">
           {publication.title}
         </Typography>
         <Typography sx={{ fontSize: 12 }} color="text.secondary">
@@ -50,7 +50,7 @@ const PublicationMoreInfo = ({ publication }: PublicationTooltipProps) => {
           {new Date(publication.date).toISOString().split('T')[0]}
         </Typography>
         <Divider textAlign="left" sx={{ margin: "8px 0 8px 0" }}>Description</Divider>
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{ maxHeight: "128px", overflow: "auto" }}>
           {publication.abstractNote}
         </Typography>
         <Divider textAlign="left" sx={{ margin: "8px 0 8px 0" }}>Tags</Divider>
@@ -111,6 +111,14 @@ const getPublicationIcon = (itemType: ITEM_TYPE) => {
   }
 }
 
+const getSecondaryPeek = (text: string) => {
+  if (text.length > 90) {
+    return `${text.slice(0, 86)} ...`;
+  } else {
+    return text;
+  }
+}
+
 export const PublicationItem = ({ publication }: { publication: Publication }) => {
   return (
     <ListItem
@@ -134,7 +142,7 @@ export const PublicationItem = ({ publication }: { publication: Publication }) =
           {getPublicationIcon(publication.itemType)}
         </Tooltip>
       </ListItemIcon>
-      <ListItemText primary={publication.title} secondary={publication.abstractNote} />
+      <ListItemText primary={publication.title || publication.url.slice(0, 70)} secondary={getSecondaryPeek(publication.abstractNote)} />
       <ListItemIcon>
         <Tooltip
           title={

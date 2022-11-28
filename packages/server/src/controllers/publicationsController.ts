@@ -62,7 +62,6 @@ type getPublicationsRequestParams = {
 publicationsRouter.get("/", async (req: Request<null, any, any, getPublicationsRequestParams>, res: Response) => {
   const pageSize = Number(req.query.pageSize);
   const page = Number(req.query.page);
-  console.log(req.query);
   const [publications, maxCount] = await Promise.all([getPublications({ page, pageSize }), getPublicationsCount()]);
   return res.json({ publications, maxCount });
 });
