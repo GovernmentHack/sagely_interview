@@ -24,7 +24,7 @@ describe("publications", () => {
 
   test("getPublicationsCount will throw if db has not been setup", async () => {
     process.env.MONGODB_CONNSTRING = "";
-    await expect(publicationModule.getPublicationsCount()).rejects.toThrow();
+    await expect(publicationModule.getPublicationsCount({})).rejects.toThrow();
   });
 
   test("getPublicationTags will throw if db has not been setup", async () => {

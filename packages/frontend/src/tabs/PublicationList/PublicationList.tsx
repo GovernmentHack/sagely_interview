@@ -34,6 +34,7 @@ export const PublicationTab: React.FunctionComponent = () => {
     params: {
       pageSize: rowsPerPage,
       page,
+      tagFilter: tags
     }
   });
 

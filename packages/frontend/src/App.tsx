@@ -18,7 +18,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
       </header>
       <Tabs value={currentlySelectedTab} onChange={handleTabChange}>
-        <Tab label="View Documents" />
+        <Tab label="View Publications" />
       </Tabs>
       <TabPanel index={0} currentlySelectedTab={currentlySelectedTab}>
         <PublicationTab />
