@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import axios, { Method, RawAxiosRequestHeaders, AxiosResponse } from 'axios';
+import { useState, useEffect } from "react";
+import axios, { Method, RawAxiosRequestHeaders, AxiosResponse } from "axios";
 
 interface UseAxiosParameters<D> { url: string; method: Method; body?: D; headers?: RawAxiosRequestHeaders, params?: any }
 

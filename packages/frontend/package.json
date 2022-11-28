@@ -29,7 +29,7 @@
   },
   "scripts": {
     "watch-ts": "tsc -w --preserveWatchOutput",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "build": "npm run clean && npm run compile && react-scripts build",
     "compile": "tsc",
     "clean": "rm -rf build && rm -rf tsconfig.buildinfo",

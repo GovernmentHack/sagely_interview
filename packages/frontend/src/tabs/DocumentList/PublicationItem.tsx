@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, CardContent, Chip, Divider, FormControl, IconButton, InputLabel, List, ListItem, ListItemIcon, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Skeleton, TablePagination, Tooltip, Typography } from "@mui/material";
+import { Box, Card, CardContent, Chip, Divider, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip, Typography } from "@mui/material";
 import BookIcon from "@mui/icons-material/Book";
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 import WebIcon from '@mui/icons-material/Web';
@@ -9,7 +9,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import InfoIcon from '@mui/icons-material/Info';
 
-enum ITEM_TYPE {
+export enum ITEM_TYPE {
   WEBPAGE = "webpage",
   VIDEO_RECORDING = "videoRecording",
   MAGAZINE_ARTICLE = "magazineArticle",
