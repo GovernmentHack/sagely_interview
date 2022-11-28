@@ -3,10 +3,10 @@ services:
   backend:
     build: ./packages/server
     ports:
-      - "5000:5000"
+      - "3000:3000"
     image: backend
   frontend:
     build: ./packages/frontend
     ports:
-      - "3000:3000"
+      - "3001:3001"
     image: frontend

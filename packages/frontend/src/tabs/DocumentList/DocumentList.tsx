@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Chip, Divider, FormControl, IconButton, InputLabel, List, ListItem, ListItemIcon, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, TablePagination, Tooltip, Typography } from "@mui/material";
+import { Box, Card, CardContent, Chip, Divider, FormControl, IconButton, InputLabel, List, ListItem, ListItemIcon, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Skeleton, TablePagination, Tooltip, Typography } from "@mui/material";
 import BookIcon from "@mui/icons-material/Book";
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 import WebIcon from '@mui/icons-material/Web';
@@ -9,6 +9,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import InfoIcon from '@mui/icons-material/Info';
 import React, { useState } from "react";
 import "./DocumentList.css"
+import useAxios from "../../utils/useAxios";
 
 enum ITEM_TYPE {
   WEBPAGE = "webpage",
@@ -108,18 +109,18 @@ const getPublicationIcon = (itemType: ITEM_TYPE) => {
   }
 }
 
-const Filter = (): JSX.Element => {
-  const [tags, setTags] = React.useState<string[]>([]);
+interface FilterParams {
+  possibleTags?: string[];
+  tags?: string[];
+  setTags: Function;
+}
 
-  // TODO - replace with fetch
-  const possibleTags = ["agile", "stuff", "reference", "guide"];
-
+const Filter = ({ possibleTags, tags, setTags }: FilterParams): JSX.Element => {
   const handleChange = (event: SelectChangeEvent<typeof tags>) => {
     const {
       target: { value },
     } = event;
     setTags(
-      // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
   };
@@ -151,8 +152,9 @@ const Filter = (): JSX.Element => {
               ))}
             </Box>
           )}
+          disabled={!possibleTags?.length}
         >
-          {possibleTags.map((tag) => (
+          {possibleTags?.length && possibleTags.map((tag) => (
             <MenuItem
               key={tag}
               value={tag}
@@ -166,61 +168,25 @@ const Filter = (): JSX.Element => {
   )
 }
 
-const getPublications = (): Publication[] => {
-  return [
-    {
-      url: "https://www.google.com",
-      manualTags: ["reference", "stuff"],
-      abstractNote: "Its google. look it up",
-      date: new Date(),
-      dateAdded: new Date(),
-      dateModified: new Date(),
-      accessDate: new Date(),
-      key: "YEHV4F7I",
-      itemType: ITEM_TYPE.WEBPAGE,
-      publicationYear: 1970,
-      author: "GovernmentHack",
-      title: "Google",
-    },
-    {
-      url: "https://www.facebook.com",
-      manualTags: ["networking", "stuff"],
-      abstractNote: "Its facebook. look it up",
-      date: new Date(),
-      dateAdded: new Date(),
-      dateModified: new Date(),
-      accessDate: new Date(),
-      key: "YEHV5F7I",
-      itemType: ITEM_TYPE.WEBPAGE,
-      publicationYear: 1999,
-      author: "GovernmentHack",
-      title: "Facebook",
-    },
-    {
-      url: "https://www.youtube.com/watch?v=YWA-xbsJrVg",
-      manualTags: ["reference", "guide"],
-      abstractNote: "Its a youtube video. look it up",
-      date: new Date(),
-      dateAdded: new Date(),
-      dateModified: new Date(),
-      accessDate: new Date(),
-      key: "YEDG4F7I",
-      itemType: ITEM_TYPE.VIDEO_RECORDING,
-      publicationYear: 2016,
-      author: "Someone Else",
-      title: "Make a Webpage",
-    }
-  ]
-}
-
 export const DocumentTab: React.FunctionComponent = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [tags, setTags] = useState<string[]>([]);
+
+  const { response: possibleTags, loading: tagsLoading, error: tagsError } = useAxios<undefined, string[]>({
+    method: "GET",
+    url: "/tags",
+  });
 
   const MAX_COUNT = 100;
 
   //TODO - replace with fetch
-  const publications = getPublications();
+  // const publications = getPublications();
+
+  const { response: publications, loading: publicationsLoading, error: publicationsError } = useAxios<undefined, Publication[]>({
+    method: "GET",
+    url: "/publications",
+  });
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -238,48 +204,55 @@ export const DocumentTab: React.FunctionComponent = () => {
 
   return (
     <div aria-label="Document List" className="document-list">
-      <Filter />
-      <List>
-        {publications.map((publication) => {
-          return (
-            <ListItem
-              secondaryAction={
-                <IconButton edge="end" aria-label="link" color="secondary" onClick={() => window.open(publication.url, "_blank")}>
-                  <OpenInNewIcon />
-                </IconButton>
-              }
-              sx={{
-                minWidth: "50vw",
-              }}
-              key={publication.key}
-            >
-              <ListItemIcon>
-                <Tooltip
-                  title={
-                    getMoreInfo(publication)
-                  }
-                  placement={"bottom-start"}
-                >
-                  {getPublicationIcon(publication.itemType)}
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText primary={publication.title} secondary={publication.abstractNote} />
-              <ListItemIcon>
-                <Tooltip
-                  title={
-                    getDates(publication)
-                  }
-                  placement={"bottom-start"}
-                >
-                  <InfoIcon>
+      {!tagsError && possibleTags.length && <Filter tags={tags} setTags={setTags as Function} possibleTags={possibleTags} />}
+      {publicationsLoading && <>
+        <Skeleton animation="wave" sx={{ minWidth: "50vw", margin: "4px 0 4px 0" }} variant="rectangular" height={64} />
+        <Skeleton animation="wave" sx={{ minWidth: "50vw", margin: "4px 0 4px 0" }} variant="rectangular" height={64} />
+        <Skeleton animation="wave" sx={{ minWidth: "50vw", margin: "4px 0 4px 0" }} variant="rectangular" height={64} />
+      </>}
+      {publications?.length && !publicationsError && !publicationsLoading &&
+        <List>
+          {publications.map((publication) => {
+            return (
+              <ListItem
+                secondaryAction={
+                  <IconButton edge="end" aria-label="link" color="secondary" onClick={() => window.open(publication.url, "_blank")}>
+                    <OpenInNewIcon />
+                  </IconButton>
+                }
+                sx={{
+                  minWidth: "50vw",
+                }}
+                key={publication.key}
+              >
+                <ListItemIcon>
+                  <Tooltip
+                    title={
+                      getMoreInfo(publication)
+                    }
+                    placement={"bottom-start"}
+                  >
+                    {getPublicationIcon(publication.itemType)}
+                  </Tooltip>
+                </ListItemIcon>
+                <ListItemText primary={publication.title} secondary={publication.abstractNote} />
+                <ListItemIcon>
+                  <Tooltip
+                    title={
+                      getDates(publication)
+                    }
+                    placement={"bottom-start"}
+                  >
+                    <InfoIcon>
 
-                  </InfoIcon>
-                </Tooltip>
-              </ListItemIcon>
-            </ListItem>
-          )
-        })}
-      </List>
+                    </InfoIcon>
+                  </Tooltip>
+                </ListItemIcon>
+              </ListItem>
+            )
+          })}
+        </List >
+      }
       <TablePagination
         component="div"
         count={MAX_COUNT}
@@ -288,6 +261,6 @@ export const DocumentTab: React.FunctionComponent = () => {
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </div>
+    </div >
   )
 } 
