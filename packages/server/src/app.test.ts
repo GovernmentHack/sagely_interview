@@ -1,6 +1,9 @@
 import { Express } from "express";
 import { initApp } from "./app";
 import request from "supertest";
+import { initDbForTests } from "./testUtils/mockDb";
+
+initDbForTests();
 
 describe("root app", () => {
   let app: Express;

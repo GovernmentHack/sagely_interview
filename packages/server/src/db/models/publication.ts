@@ -25,7 +25,7 @@ export enum ITEM_TYPE {
   BOOK = "book",
 }
 
-interface getPublicationsParams {
+export interface getPublicationsParams {
   page?: number;
   pageSize?: number;
   tagFilter?: string[];

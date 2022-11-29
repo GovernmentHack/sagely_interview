@@ -9,7 +9,7 @@ interface UseAxiosParameters<D> {
   params?: any;
 }
 
-const useAxios = <RequestData, ResponseData>({
+export const useAxios = <RequestData, ResponseData>({
   url,
   method,
   body,
@@ -45,5 +45,3 @@ const useAxios = <RequestData, ResponseData>({
 
   return { response, error, loading };
 };
-
-export default useAxios;

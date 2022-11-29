@@ -1,7 +1,7 @@
 import { List, Skeleton, TablePagination, Typography } from "@mui/material";
 import React, { useState } from "react";
 import "./PublicationList.css";
-import useAxios from "../../utils/useAxios";
+import { useAxios } from "../../utils/useAxios";
 import { Publication, PublicationItem } from "./PublicationItem";
 import { Filter } from "./Filter";
 
@@ -55,7 +55,7 @@ export const PublicationTab: React.FunctionComponent = () => {
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(Number(event.target.value));
     setPage(0);
   };
 
