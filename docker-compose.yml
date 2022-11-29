@@ -1,20 +1,33 @@
 version: "3.7"
 services:
-  backend:
-    build: ./packages/server
+  sagely-backend:
+    build:
+      context: ./packages/server
+      args:
+        DATASET: dataset.csv
     ports:
       - 3000:3000
-    image: backend
-  backend-db:
+    image: sagely-backend
+    depends_on:
+      - sagely-backend-db
+    environment:
+      - MONGODB_URI=mongodb://sagely-backend-db:27017
+  sagely-backend-db:
     image: mongo:4.4
     ports:
       - 27017-27019:27017-27019
-    volumes:
-      - mongodb_data_container:/data/db
-  frontend:
-    build: ./packages/frontend
+    # volumes:
+    #   - mongodb_data_container:/data/db
+  sagely-frontend:
+    build:
+      context: ./packages/frontend
+      args:
+        REACT_APP_SERVER_URL: http://localhost:3001/api
     ports:
       - 3001:3001
-    image: frontend
-volumes:
-  mongodb_data_container:
+    image: sagely-frontend
+    depends_on:
+      - sagely-backend
+
+# volumes:
+#   mongodb_data_container:
