@@ -4,6 +4,8 @@ import "./App.css";
 import { PublicationTab } from "./tabs/PublicationList/PublicationList";
 import { Tab, Tabs } from "@mui/material";
 import { TabPanel } from "./tabs/TabPanel";
+import { ThemeProvider } from "@mui/material/styles";
+import { PrimaryMainTheme } from "./utils/themeOverride";
 
 function App() {
   const [currentlySelectedTab, setCurrentlySelectedTab] = React.useState(0);
@@ -14,15 +16,17 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-      <Tabs value={currentlySelectedTab} onChange={handleTabChange}>
-        <Tab label="View Publications" />
-      </Tabs>
-      <TabPanel index={0} currentlySelectedTab={currentlySelectedTab}>
-        <PublicationTab />
-      </TabPanel>
+      <ThemeProvider theme={PrimaryMainTheme}>
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+        </header>
+        <Tabs value={currentlySelectedTab} onChange={handleTabChange}>
+          <Tab label="View Publications" />
+        </Tabs>
+        <TabPanel index={0} currentlySelectedTab={currentlySelectedTab}>
+          <PublicationTab />
+        </TabPanel>
+      </ThemeProvider>
     </div>
   );
 }

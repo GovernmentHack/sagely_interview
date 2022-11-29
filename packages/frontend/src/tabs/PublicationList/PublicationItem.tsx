@@ -20,6 +20,7 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import SchoolIcon from "@mui/icons-material/School";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import InfoIcon from "@mui/icons-material/Info";
+import { DetailsModal } from "./DetailsModal";
 
 export enum ITEM_TYPE {
   WEBPAGE = "webpage",
@@ -139,6 +140,10 @@ export const PublicationItem = ({
 }: {
   publication: Publication;
 }) => {
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const handleOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false);
+
   return (
     <ListItem
       secondaryAction={
@@ -167,6 +172,13 @@ export const PublicationItem = ({
       <ListItemText
         primary={publication.title || publication.url.slice(0, 70)}
         secondary={getSecondaryPeek(publication.abstractNote)}
+        onClick={handleOpen}
+        sx={{ cursor: "pointer" }}
+      />
+      <DetailsModal
+        open={modalOpen}
+        handleClose={handleClose}
+        publication={publication}
       />
       <ListItemIcon>
         <Tooltip
