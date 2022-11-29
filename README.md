@@ -21,10 +21,11 @@ The production cluster uses 3 docker containers:
 
 ### Running
 
-`docker-compose up`
+Running requires [docker for desktop](https://docs.docker.com/get-docker/) to be locally installed.
 
-* Will build a production build docker container cluster and start all of it.
-* Access the site at [localhost:3001](http://localhost:3001)
+Then run `docker-compose up`.
+
+Access the site at [localhost:3001](http://localhost:3001)
 
 ### Development
 
