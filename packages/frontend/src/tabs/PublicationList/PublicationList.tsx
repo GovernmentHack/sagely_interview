@@ -1,5 +1,5 @@
 import { List, Skeleton, TablePagination, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./PublicationList.css";
 import { useAxios } from "../../utils/useAxios";
 import { Publication, PublicationItem } from "./PublicationItem";
@@ -22,6 +22,15 @@ export const PublicationTab: React.FunctionComponent = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [tags, setTags] = useState<string[]>([]);
+  const [publicationsParams, setPublicationsParams] = useState<{
+    pageSize: number;
+    page: number;
+    tagFilter: string[];
+  }>({
+    pageSize: 10,
+    page: 0,
+    tagFilter: [],
+  });
 
   const { response: possibleTags, error: tagsError } = useAxios<
     undefined,
@@ -31,6 +40,15 @@ export const PublicationTab: React.FunctionComponent = () => {
     url: "/tags",
   });
 
+  // prevents infitinite looping when passing state controlled variables directly as parameters to useAxios
+  useEffect(() => {
+    setPublicationsParams({
+      pageSize: rowsPerPage,
+      page,
+      tagFilter: tags,
+    });
+  }, [page, rowsPerPage, tags]);
+
   const {
     response: publicationsResponse,
     loading: publicationsLoading,
@@ -38,11 +56,7 @@ export const PublicationTab: React.FunctionComponent = () => {
   } = useAxios<undefined, PublicationsResponse>({
     method: "GET",
     url: "/publications",
-    params: {
-      pageSize: rowsPerPage,
-      page,
-      tagFilter: tags,
-    },
+    params: publicationsParams,
   });
 
   const handleChangePage = (

@@ -41,7 +41,7 @@ export const useAxios = <RequestData, ResponseData>({
 
   useEffect(() => {
     fetchData();
-  }, [method, url, body, headers, params]);
+  }, [body, params]);
 
   return { response, error, loading };
 };
